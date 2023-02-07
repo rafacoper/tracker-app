@@ -13,8 +13,9 @@ const authReducer = (state, action) => {
   }
 }
 
-const signup = (dispatch) => {
-  return async ({ email, password }) => {
+const signup =
+  (dispatch) =>
+  async ({ email, password }) => {
     try {
       const response = await tracker.post("/signup", {
         email,
@@ -30,10 +31,10 @@ const signup = (dispatch) => {
       })
     }
   }
-}
 
-const signin = (dispatch) => {
-  return async ({ email, password }) => {
+const signin =
+  (dispatch) =>
+  async ({ email, password }) => {
     try {
       await tracker.post("/signin", { email, password })
     } catch (error) {
@@ -44,11 +45,10 @@ const signin = (dispatch) => {
       })
     }
   }
-}
 
-const signout = (dispatch) => {
-  return ({ email, password }) => {}
-}
+const signout =
+  (dispatch) =>
+  ({ email, password }) => {}
 
 export const { Provider, Context } = createDataContext(
   authReducer,
