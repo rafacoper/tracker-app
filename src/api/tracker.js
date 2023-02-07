@@ -1,5 +1,7 @@
 import axios from "axios";
 
-export default axios.create({
-  baseURL: 'https://7c5b-177-208-49-42.sa.ngrok.io'
+const port = process.env.PORT
+
+export const myApi = axios.create({
+  baseURL: `${port}`
 })

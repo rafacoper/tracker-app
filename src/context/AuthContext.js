@@ -1,22 +1,44 @@
 import createDataContext from "./createDataContext"
+import tracker from "../api/tracker"
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case "add_error":
+      return { ...state, errorMessage: action.payload }
     default:
       state
   }
 }
 
 const signup = (dispatch) => {
-  return ({ email, password }) => {
-    // make api request to sign up with email and password
-    // if we sign up, modify our state, and say that we are authenticated
-    // if sign in fail throw error
+  return async ({ email, password }) => {
+    try {
+      const response = await tracker.post("/signup", {
+        email,
+        password,
+      })
+    } catch (err) {
+      console.log(err.message)
+      dispatch({
+        type: "add_error",
+        payload: "Something went wrong with signup",
+      })
+    }
   }
 }
 
 const signin = (dispatch) => {
-  return ({ email, password }) => {}
+  return async ({ email, password }) => {
+    try {
+      await tracker.post("/signin", { email, password })
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: "add_error",
+        payload: "Something went wrong with signin",
+      })
+    }
+  }
 }
 
 const signout = (dispatch) => {
@@ -26,5 +48,5 @@ const signout = (dispatch) => {
 export const { Provider, Context } = createDataContext(
   authReducer,
   { signup, signin, signout },
-  { isSignedIn: false }
+  { isSignedIn: false, errorMessage: "" }
 )
