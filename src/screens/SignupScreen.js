@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 48,
   },
+  link: {
+    color: 'blue'
+  }
 })
 
 export default SignupScreen

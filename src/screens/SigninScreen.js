@@ -1,43 +1,29 @@
-import React, { useContext, useState } from "react"
-import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { Button, Input, Text } from "react-native-elements"
-import Spacer from "../components/Spacer"
+import React, { useContext } from "react"
+import { View, StyleSheet } from "react-native"
 import { Context as AuthContext } from "../context/AuthContext"
+import AuthForm from "../components/AuthForm"
+import NavLink from "../components/NavLink"
 
 const SigninScreen = ({ navigation }) => {
   const { state, signin } = useContext(AuthContext)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
 
   return (
     <View style={styles.container}>
-      <Spacer>
-        <Text h3>Sign in for Tracker</Text>
-      </Spacer>
-      <Input
-        label="Email"
-        value={email}
-        onChange={setEmail}
-        autoCapitalize="none"
-        autoCorrect={false}
+      <AuthForm
+        headerText="Sign In for Tracker"
+        errorMessage={state?.errorMessage}
+        submitButtonText="Sign Ip"
+        onSubmit={signup}
       />
-      <Spacer />
-      <Input
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry
-      />
-      <Spacer>
-        <Button title="Sign in" onPress={() => signin({ email, password })} />
-      </Spacer>
-      <TouchableOpacity onPress={navigation.navigate('Signup')}>
-        <Text style={styles.link}>Don't have an account yet? Signup</Text>
-      </TouchableOpacity>
+      <NavLink routeName="Signup" text="Dont have a account yet? Sign up!" />
     </View>
   )
+}
+
+SignupScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  }
 }
 
 const styles = StyleSheet.create({
