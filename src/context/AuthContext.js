@@ -1,5 +1,5 @@
 import createDataContext from "./createDataContext"
-import tracker from "../api/tracker"
+import trackerApi from "../api/tracker"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { navigate } from "../navigationRef"
 
@@ -7,6 +7,8 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case "signup":
       return { errorMessage: "", token: action.payload }
+    case "signin":
+      return { errorMessage: "", token: action.payload };
     case "addError":
       return { ...state, errorMessage: action.payload }
     default:
@@ -18,24 +20,24 @@ const signup =
   (dispatch) =>
   async ({ email, password }) => {
     try {
-      const response = await trackerApi.post("/signup", { email, password })
-      await AsyncStorage.setItem("token", response.data.token)
-      dispatch({ type: "signin", payload: response.data.token })
+      const response = await trackerApi.post("/signup", { email, password });
+      await AsyncStorage.setItem("token", response.data.token);
+      dispatch({ type: "signin", payload: response.data.token });
 
-      navigate("TrackList")
+      navigate("TrackList");
     } catch (err) {
       dispatch({
         type: "addError",
         payload: "Something went wrong with sign up",
-      })
+      });
     }
-  }
+  };
 
 const signin =
   (dispatch) =>
   async ({ email, password }) => {
     try {
-      const response = await tracker.post("/signin", { email, password })
+      const response = await trackerApi.post("/signin", { email, password })
       await AsyncStorage.setItem("token", response.data.token)
       dispatch({ type: "signin", payload: response.data.token })
 
@@ -49,12 +51,14 @@ const signin =
     }
   }
 
-// const signout =
-//   (dispatch) =>
-//   ({ email, password }) => {}
+const signout = (dispatch) => async () => {
+  await AsyncStorage.removeItem("token");
+  dispatch({ type: "signout" });
+  navigate("loginFlow");
+};
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signup, signin },
+  { signup, signin, signout },
   { token: null, errorMessage: "" }
 )
