@@ -9,10 +9,12 @@ const authReducer = (state, action) => {
       return { errorMessage: "", token: action.payload }
     case "signin":
       return { errorMessage: "", token: action.payload }
+    case "signout":
+      return { errorMessage: "", token: null }
     case "add_error":
       return { ...state, errorMessage: action.payload }
-    case 'clear_error_message':
-      return {...state, errorMessage: ''}
+    case "clear_error_message":
+      return { ...state, errorMessage: "" }
     default:
       return state
   }
