@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { View, StyleSheet } from "react-native"
 import { Context as AuthContext } from "../context/AuthContext"
 import AuthForm from "../components/AuthForm"
-// import NavLink from "../components/NavLink"
+import NavLink from "../components/NavLink"
 
 const SigninScreen = ({ navigation }) => {
   const { state, signin } = useContext(AuthContext)
@@ -15,7 +15,7 @@ const SigninScreen = ({ navigation }) => {
         submitButtonText="Sign In"
         onSubmit={signin}
       />
-      {/* <NavLink routeName="Signup" text="Dont have a account yet? Sign up!" /> */}
+      <NavLink routeName="Signup" text="Dont have a account yet? Sign up!" />
     </View>
   )
 }
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     fontSize: 48,
   },
   link: {
-    color: 'blue'
-  }
+    color: "blue",
+  },
 })
 
 export default SigninScreen
